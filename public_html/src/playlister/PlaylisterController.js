@@ -116,6 +116,7 @@ export default class PlaylisterController {
       'edit-song-confirm-button'
     );
     editSongConfirmButton.onclick = (event) => {
+      // edits the song details
       const songTitle = document.getElementById('edit-song-title-form').value;
       const songArtist = document.getElementById('edit-song-artist-form').value;
       const songYouTubeId = document.getElementById(
@@ -150,6 +151,34 @@ export default class PlaylisterController {
       document.getElementById('edit-song-title-form').value = '';
       document.getElementById('edit-song-artist-form').value = '';
       document.getElementById('edit-song-youTubeId-form').value = '';
+    };
+
+    //RESPOND TO THE USER CONFIRMING THE DELETE SONG MODAL
+    let removeSongConfirmButton = document.getElementById(
+      'remove-song-confirm-button'
+    );
+    removeSongConfirmButton.onclick = (event) => {
+      // REMOVE THE SONG FROM THE PLAYLIST
+      this.model.removeSong(this.model.selectedSongIdx);
+      // ALLOW OTHER INTERACTIONS
+      this.model.toggleConfirmDialogOpen();
+
+      // CLOSE THE MODAL
+      let removeSongModal = document.getElementById('remove-song-modal');
+      removeSongModal.classList.remove('is-visible');
+    };
+
+    //RESPOND TO THE USER CLOSING THE DELETE SONG MODAL
+    let removeSongCancelButton = document.getElementById(
+      'remove-song-cancel-button'
+    );
+    removeSongCancelButton.onclick = (event) => {
+      // ALLOW OTHER INTERACTIONS
+      this.model.toggleConfirmDialogOpen();
+
+      // CLOSE THE MODAL
+      let removeSongModal = document.getElementById('remove-song-modal');
+      removeSongModal.classList.remove('is-visible');
     };
   }
 
@@ -285,16 +314,39 @@ export default class PlaylisterController {
         }
       };
 
+      // OPENS UP THE MODAL TO ALLOW A SONG TO BE EDITED
       card.ondblclick = (event) => {
         event.preventDefault();
         let editSongModal = document.getElementById('edit-song-modal');
         this.model.setSelectedSongIdx(
           parseInt(event.target.id.split('playlist-card-').pop()) - 1
         );
-        console.log(this.model.selectedSongIdx);
         editSongModal.classList.add('is-visible');
       };
+
+      // STORES THE IDX OF THE SONG FOR DELETION
+      // card.onclick = (event) => {
+      //   event.preventDefault();
+      //   this.model.setSelectedSongIdx(
+      //     parseInt(event.target.id.split('playlist-card-').pop()) - 1
+      //   );
+      //   console.log(this.model.selectedSongIdx);
+      // };
     }
+  }
+
+  registerSongSelectHandler(songId) {
+    // OPENS UP THE MODAL TO ALLOW A SONG TO BE DELETED
+
+    let removeSongButton = document.getElementById('remove-song-' + songId);
+
+    removeSongButton.onclick = (event) => {
+      event.preventDefault();
+      console.log('button clicked');
+      this.model.setSelectedSongIdx(parseInt(songId) - 1);
+      let removeSongModal = document.getElementById('remove-song-modal');
+      removeSongModal.classList.add('is-visible');
+    };
   }
 
   /*

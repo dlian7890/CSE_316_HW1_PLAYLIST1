@@ -125,12 +125,29 @@ export default class PlaylisterView {
 
       itemAnchor.appendChild(itemAnchorText);
 
-      itemDiv.appendChild(itemText);
+      let itemDivLeft = document.createElement('div');
+      itemDiv.classList.add('list-card-left');
+      itemDivLeft.appendChild(itemText);
+      itemDivLeft.appendChild(itemAnchor);
 
-      itemDiv.appendChild(itemAnchor);
+      let itemDivRight = document.createElement('div');
+      itemDivRight.classList.add('list-card-right');
+
+      let removeSongButton = document.createElement('input');
+      removeSongButton.type = 'button';
+      removeSongButton.id = 'remove-song-' + song.id;
+      removeSongButton.classList.add('list-card-button');
+      removeSongButton.value = 'X';
+
+      itemDivRight.appendChild(removeSongButton);
+
+      itemDiv.appendChild(itemDivLeft);
+      itemDiv.appendChild(itemDivRight);
 
       // AND PUT THE CARD INTO THE UI
       itemsDiv.appendChild(itemDiv);
+
+      this.controller.registerSongSelectHandler(song.id);
     }
     // NOW THAT THE CONTROLS EXIST WE CAN REGISTER EVENT
     // HANDLERS FOR THEM

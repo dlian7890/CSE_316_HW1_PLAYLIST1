@@ -297,4 +297,12 @@ export default class PlaylisterModel {
     }
     this.saveLists();
   }
+
+  removeSong(songIdx) {
+    this.currentList.songs.splice(songIdx, 1);
+    if (this.hasCurrentList()) {
+      this.view.refreshPlaylist(this.currentList);
+    }
+    this.saveLists();
+  }
 }

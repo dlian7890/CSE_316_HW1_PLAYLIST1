@@ -104,32 +104,39 @@
         </div>
       </div>
 
+      <!-- MODAL (i.e. dialog) FOR VERIFYING THE EDIT OF A SONG -->
       <div class="modal" id="edit-song-modal" data-animation="slideInOutLeft">
         <div class="modal-root" id="edit-song-modal-root">
           <div class="modal-north">Edit Playlist</div>
           <div class="modal-center">
             <div class="modal-center-content">
-              <span>Title: </span
-              ><input
-                type="text"
-                id="edit-song-title-form"
-                class="modal-form"
-                placeholder=""
-              />
-              <span>Artist: </span
-              ><input
-                type="text"
-                id="edit-song-artist-form"
-                class="modal-form"
-                placeholder=""
-              />
-              <span>YouTubeId</span
-              ><input
-                type="text"
-                id="edit-song-youTubeId-form"
-                class="modal-form"
-                placeholder=""
-              />
+              <div class="edit-song-modal-row">
+                <span class="modal-label">Title:</span>
+                <input
+                  type="text"
+                  id="edit-song-title-form"
+                  class="modal-form"
+                  placeholder=""
+                />
+              </div>
+              <div class="edit-song-modal-row">
+                <span class="modal-label">Artist:</span>
+                <input
+                  type="text"
+                  id="edit-song-artist-form"
+                  class="modal-form"
+                  placeholder=""
+                />
+              </div>
+              <div class="edit-song-modal-row">
+                <span class="modal-label">YouTubeId:</span>
+                <input
+                  type="text"
+                  id="edit-song-youTubeId-form"
+                  class="modal-form"
+                  placeholder=""
+                />
+              </div>
             </div>
           </div>
           <div class="modal-south">
@@ -149,46 +156,26 @@
         </div>
       </div>
 
-      <div class="modal" id="edit-song-modal" data-animation="slideInOutLeft">
-        <div class="modal-root" id="edit-song-modal-root">
-          <!-- <div class="modal-north"></div> -->
+      <!-- MODAL (i.e. dialog) FOR VERIFYING THE REMOVAL OF A SONG -->
+      <div class="modal" id="remove-song-modal" data-animation="slideInOutLeft">
+        <div class="modal-root" id="verify-song-list-root">
+          <div class="modal-north">Delete playlist?</div>
           <div class="modal-center">
             <div class="modal-center-content">
-              Title:
-              <input
-                type="text"
-                id="edit-song-title-form"
-                class="modal-form"
-                placeholder=""
-              />
-              <br />
-              Artist:
-              <input
-                type="text"
-                id="edit-song-artist-form"
-                class="modal-form"
-                placeholder=""
-              />
-              <br />
-              YouTubeId:
-              <input
-                type="text"
-                id="edit-song-youTubeId-form"
-                class="modal-form"
-                placeholder=""
-              />
+              Are you sure you wish to permanently remove
+              <span id="remove-song-span"></span> from the playlist?
             </div>
           </div>
           <div class="modal-south">
             <input
               type="button"
-              id="edit-list-confirm-button"
+              id="remove-song-confirm-button"
               class="modal-button"
               value="Confirm"
             />
             <input
               type="button"
-              id="edit-list-cancel-button"
+              id="remove-song-cancel-button"
               class="modal-button"
               value="Cancel"
             />

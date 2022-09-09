@@ -95,6 +95,16 @@ span {
   margin-top: 1rem;
 }
 
+.modal-label {
+  font-size: 2.5rem;
+}
+
+.edit-song-modal-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
 /* ANIMATIONS
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 [data-animation] .modal-root {
