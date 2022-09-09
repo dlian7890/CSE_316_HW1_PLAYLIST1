@@ -85,6 +85,10 @@ export default class PlaylisterModel {
     this.deleteListId = initId;
   }
 
+  setSelectedSongIdx(idx) {
+    this.selectedSongIdx = idx;
+  }
+
   toggleConfirmDialogOpen() {
     this.confirmDialogOpen = !this.confirmDialogOpen;
     this.view.updateToolbarButtons(this);
@@ -283,12 +287,12 @@ export default class PlaylisterModel {
     this.saveLists();
   }
 
-  editNewSong(song, newTitle, newArtist, newYouTubeId) {
-    if (newTitle) song.setTitle(newTitle);
-    if (newArtist) song.setArtist(newArtist);
-    if (newYouTubeId) song.setYouTubeId(newYouTubeId);
+  editSong(songIdx, newTitle, newArtist, newYouTubeId) {
+    let song = this.getSong(songIdx);
+    if (newTitle) song.title = newTitle;
+    if (newArtist) song.artist = newArtist;
+    if (newYouTubeId) song.youTubeId = newYouTubeId;
     if (this.hasCurrentList()) {
-      this.currentList.songs.push(newSong);
       this.view.refreshPlaylist(this.currentList);
     }
     this.saveLists();

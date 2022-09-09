@@ -110,6 +110,47 @@ export default class PlaylisterController {
       let deleteListModal = document.getElementById('delete-list-modal');
       deleteListModal.classList.remove('is-visible');
     };
+
+    //RESPOND TO THE USER CONFIRMING EDIT OF THE SONG
+    let editSongConfirmButton = document.getElementById(
+      'edit-song-confirm-button'
+    );
+    editSongConfirmButton.onclick = (event) => {
+      const songTitle = document.getElementById('edit-song-title-form').value;
+      const songArtist = document.getElementById('edit-song-artist-form').value;
+      const songYouTubeId = document.getElementById(
+        'edit-song-youTubeId-form'
+      ).value;
+      this.model.editSong(
+        this.model.selectedSongIdx,
+        songTitle,
+        songArtist,
+        songYouTubeId
+      );
+      // ALLOW OTHER INTERACTIONS
+      this.model.toggleConfirmDialogOpen();
+
+      // CLOSE THE MODAL
+      let editSongModal = document.getElementById('edit-song-modal');
+      editSongModal.classList.remove('is-visible');
+    };
+
+    //RESPOND TO THE USER CLOSING THE EDIT SONG MODAL
+    let editSongCancelButton = document.getElementById(
+      'edit-song-cancel-button'
+    );
+    editSongCancelButton.onclick = (event) => {
+      // ALLOW OTHER INTERACTIONS
+      this.model.toggleConfirmDialogOpen();
+
+      // CLOSE THE MODAL
+      let editSongModal = document.getElementById('edit-song-modal');
+      editSongModal.classList.remove('is-visible');
+      // clears the input fields
+      document.getElementById('edit-song-title-form').value = '';
+      document.getElementById('edit-song-artist-form').value = '';
+      document.getElementById('edit-song-youTubeId-form').value = '';
+    };
   }
 
   /*
@@ -155,7 +196,7 @@ export default class PlaylisterController {
       this.model.toggleConfirmDialogOpen();
     };
     // FOR RENAMING THE LIST NAME
-    document.getElementById('list-card-text-' + id).ondblclick = (event) => {
+    document.getElementById('list-card-text-' + id).bondlclick = (event) => {
       let text = document.getElementById('list-card-text-' + id);
       // CLEAR THE TEXT
       text.innerHTML = '';
@@ -242,6 +283,16 @@ export default class PlaylisterController {
         if (fromIndex !== toIndex && !isNaN(fromIndex) && !isNaN(toIndex)) {
           this.model.addMoveSongTransaction(fromIndex, toIndex);
         }
+      };
+
+      card.ondblclick = (event) => {
+        event.preventDefault();
+        let editSongModal = document.getElementById('edit-song-modal');
+        this.model.setSelectedSongIdx(
+          parseInt(event.target.id.split('playlist-card-').pop()) - 1
+        );
+        console.log(this.model.selectedSongIdx);
+        editSongModal.classList.add('is-visible');
       };
     }
   }
