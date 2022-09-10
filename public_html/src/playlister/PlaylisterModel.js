@@ -2,6 +2,8 @@ import jsTPS from '../common/jsTPS.js';
 import Playlist from './Playlist.js';
 import Song from './Song.js';
 import MoveSong_Transaction from './transactions/MoveSong_Transaction.js';
+import AddSong_Transaction from './transactions/AddSong_Transaction.js';
+import EditSong_Transaction from './transactions/EditSong_Transaction.js';
 
 /**
  * PlaylisterModel.js
@@ -273,14 +275,36 @@ export default class PlaylisterModel {
     this.view.updateToolbarButtons(this);
   }
 
+  addAddSongTransaction() {
+    let transaction = new AddSong_Transaction(this);
+    this.tps.addTransaction(transaction);
+    this.view.updateToolbarButtons(this);
+  }
+
+  addEditSongTransaction(songIdx, newTitle, newArtist, newYouTubeId) {
+    const preEditSong = this.getSong(songIdx);
+    let transaction = new EditSong_Transaction(
+      this,
+      songIdx,
+      preEditSong.title,
+      preEditSong.artist,
+      preEditSong.youTubeId,
+      newTitle,
+      newArtist,
+      newYouTubeId
+    );
+    this.tps.addTransaction(transaction);
+    this.view.updateToolbarButtons(this);
+  }
+
   // FUNCTIONS THAT EDIT A PLAYLIST
 
   addNewSong(initTitle, initArtist, initYouTubeId) {
-    let newSong = new Song(initTitle, initArtist, initYouTubeId);
-    if (initTitle) newSong.setTitle(initTitle);
-    if (initArtist) newSong.setArtist(initArtist);
-    if (initYouTubeId) newSong.setYouTubeId(initYouTubeId);
     if (this.hasCurrentList()) {
+      let newSong = new Song(initTitle, initArtist, initYouTubeId);
+      if (initTitle) newSong.setTitle(initTitle);
+      if (initArtist) newSong.setArtist(initArtist);
+      if (initYouTubeId) newSong.setYouTubeId(initYouTubeId);
       this.currentList.songs.push(newSong);
       this.view.refreshPlaylist(this.currentList);
     }
@@ -288,21 +312,24 @@ export default class PlaylisterModel {
   }
 
   editSong(songIdx, newTitle, newArtist, newYouTubeId) {
-    let song = this.getSong(songIdx);
-    if (newTitle) song.title = newTitle;
-    if (newArtist) song.artist = newArtist;
-    if (newYouTubeId) song.youTubeId = newYouTubeId;
     if (this.hasCurrentList()) {
+      let song = this.getSong(songIdx);
+      if (newTitle) song.title = newTitle;
+      if (newArtist) song.artist = newArtist;
+      if (newYouTubeId) song.youTubeId = newYouTubeId;
       this.view.refreshPlaylist(this.currentList);
     }
     this.saveLists();
   }
 
   removeSong(songIdx) {
-    this.currentList.songs.splice(songIdx, 1);
+    let song = this.getSong(songIdx);
     if (this.hasCurrentList()) {
+      this.currentList.songs.splice(songIdx, 1);
       this.view.refreshPlaylist(this.currentList);
     }
     this.saveLists();
+    console.log(this.getPlaylistSize());
+    return song;
   }
 }

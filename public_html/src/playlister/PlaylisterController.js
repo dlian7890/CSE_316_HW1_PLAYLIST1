@@ -53,7 +53,8 @@ export default class PlaylisterController {
     };
     // HANDLER FOR ADD SONG BUTTON
     document.getElementById('add-song-button').onmousedown = (event) => {
-      this.model.addNewSong('Untitled', 'Unknown', 'dQw4w9WgXcQ');
+      // this.model.addNewSong('Untitled', 'Unknown', 'dQw4w9WgXcQ');
+      this.model.addAddSongTransaction();
     };
     // HANDLER FOR UNDO BUTTON
     document.getElementById('undo-button').onmousedown = (event) => {
@@ -122,7 +123,13 @@ export default class PlaylisterController {
       const songYouTubeId = document.getElementById(
         'edit-song-youTubeId-form'
       ).value;
-      this.model.editSong(
+      // this.model.editSong(
+      //   this.model.selectedSongIdx,
+      //   songTitle,
+      //   songArtist,
+      //   songYouTubeId
+      // );
+      this.model.addEditSongTransaction(
         this.model.selectedSongIdx,
         songTitle,
         songArtist,
@@ -323,15 +330,6 @@ export default class PlaylisterController {
         );
         editSongModal.classList.add('is-visible');
       };
-
-      // STORES THE IDX OF THE SONG FOR DELETION
-      // card.onclick = (event) => {
-      //   event.preventDefault();
-      //   this.model.setSelectedSongIdx(
-      //     parseInt(event.target.id.split('playlist-card-').pop()) - 1
-      //   );
-      //   console.log(this.model.selectedSongIdx);
-      // };
     }
   }
 
