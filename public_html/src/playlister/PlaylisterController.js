@@ -342,7 +342,6 @@ export default class PlaylisterController {
 
     removeSongButton.onclick = (event) => {
       event.preventDefault();
-      console.log('button clicked');
       this.model.setSelectedSongIdx(parseInt(songId) - 1);
       let removeSongModal = document.getElementById('remove-song-modal');
       removeSongModal.classList.add('is-visible');

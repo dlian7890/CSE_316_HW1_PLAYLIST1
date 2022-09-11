@@ -343,7 +343,6 @@ export default class PlaylisterModel {
     let removedSong = null;
     if (this.hasCurrentList()) {
       removedSong = this.currentList.songs.splice(songIdx, 1)[0];
-      console.log(removedSong);
       this.view.refreshPlaylist(this.currentList);
     }
     this.saveLists();

@@ -97,6 +97,11 @@ span {
 
 .modal-label {
   font-size: 2.5rem;
+  padding-right: 75px;
+}
+
+.modal-form {
+  width: 250px;
 }
 
 .edit-song-modal-row {

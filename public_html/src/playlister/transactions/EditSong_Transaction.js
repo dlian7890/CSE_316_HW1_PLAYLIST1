@@ -39,7 +39,6 @@ export default class EditSong_Transaction extends jsTPS_Transaction {
   }
 
   undoTransaction() {
-    console.log(this.preEditSong);
     this.model.editSong(
       this.songIdx,
       this.preTitle,
