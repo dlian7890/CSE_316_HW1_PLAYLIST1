@@ -166,7 +166,8 @@ export default class PlaylisterController {
     );
     removeSongConfirmButton.onclick = (event) => {
       // REMOVE THE SONG FROM THE PLAYLIST
-      this.model.removeSong(this.model.selectedSongIdx);
+      // this.model.removeSong(this.model.selectedSongIdx);
+      this.model.addRemoveSongTransactions(this.model.selectedSongIdx);
       // ALLOW OTHER INTERACTIONS
       this.model.toggleConfirmDialogOpen();
 
@@ -232,7 +233,7 @@ export default class PlaylisterController {
       this.model.toggleConfirmDialogOpen();
     };
     // FOR RENAMING THE LIST NAME
-    document.getElementById('list-card-text-' + id).bondlclick = (event) => {
+    document.getElementById('list-card-text-' + id).ondblclick = (event) => {
       let text = document.getElementById('list-card-text-' + id);
       // CLEAR THE TEXT
       text.innerHTML = '';
@@ -329,13 +330,14 @@ export default class PlaylisterController {
           parseInt(event.target.id.split('playlist-card-').pop()) - 1
         );
         editSongModal.classList.add('is-visible');
+        // ALLOW OTHER INTERACTIONS
+        this.model.toggleConfirmDialogOpen();
       };
     }
   }
 
   registerSongSelectHandler(songId) {
     // OPENS UP THE MODAL TO ALLOW A SONG TO BE DELETED
-
     let removeSongButton = document.getElementById('remove-song-' + songId);
 
     removeSongButton.onclick = (event) => {
@@ -344,6 +346,8 @@ export default class PlaylisterController {
       this.model.setSelectedSongIdx(parseInt(songId) - 1);
       let removeSongModal = document.getElementById('remove-song-modal');
       removeSongModal.classList.add('is-visible');
+      // ALLOW OTHER INTERACTIONS
+      this.model.toggleConfirmDialogOpen();
     };
   }
 

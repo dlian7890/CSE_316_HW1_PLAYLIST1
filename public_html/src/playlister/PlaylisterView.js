@@ -18,9 +18,11 @@ export default class PlaylisterView {
   init() {
     // @todo - ONCE YOU IMPLEMENT THE FOOLPROOF DESIGN STUFF YOU SHOULD PROBABLY
     // START THESE BUTTONS OFF AS DISABLED
-    this.enableButton('undo-button');
-    this.enableButton('redo-button');
-    this.enableButton('close-button');
+    this.disableButton('add-list-button');
+    this.disableButton('add-song-button');
+    this.disableButton('undo-button');
+    this.disableButton('redo-button');
+    this.disableButton('close-button');
   }
 
   /*
@@ -135,7 +137,7 @@ export default class PlaylisterView {
 
       let removeSongButton = document.createElement('input');
       removeSongButton.type = 'button';
-      removeSongButton.id = 'remove-song-' + song.id;
+      removeSongButton.id = 'remove-song-' + (i + 1);
       removeSongButton.classList.add('list-card-button');
       removeSongButton.value = 'X';
 
@@ -147,7 +149,7 @@ export default class PlaylisterView {
       // AND PUT THE CARD INTO THE UI
       itemsDiv.appendChild(itemDiv);
 
-      this.controller.registerSongSelectHandler(song.id);
+      this.controller.registerSongSelectHandler(i + 1);
     }
     // NOW THAT THE CONTROLS EXIST WE CAN REGISTER EVENT
     // HANDLERS FOR THEM
@@ -224,11 +226,27 @@ export default class PlaylisterView {
     */
   updateToolbarButtons(model) {
     let tps = model.tps;
+
     if (model.confirmDialogOpen) {
-      // this.disableButton('add-list-button');
-      // this.disableButton('undo-button');
-      // this.disableButton('redo-button');
-      // this.disableButton('close-button');
+      this.disableButton('add-list-button');
+      this.disableButton('add-song-button');
+      this.disableButton('undo-button');
+      this.disableButton('redo-button');
+      this.disableButton('close-button');
+    } else {
+      if (model.hasCurrentList()) {
+        this.disableButton('add-list-button');
+        this.enableButton('add-song-button');
+        if (tps.hasTransactionToUndo()) this.enableButton('undo-button');
+        if (tps.hasTransactionToRedo()) this.enableButton('redo-button');
+        this.enableButton('close-button');
+      } else {
+        this.enableButton('add-list-button');
+        this.disableButton('add-song-button');
+        this.disableButton('undo-button');
+        this.disableButton('redo-button');
+        this.disableButton('close-button');
+      }
     }
   }
 

@@ -4,6 +4,7 @@ import Song from './Song.js';
 import MoveSong_Transaction from './transactions/MoveSong_Transaction.js';
 import AddSong_Transaction from './transactions/AddSong_Transaction.js';
 import EditSong_Transaction from './transactions/EditSong_Transaction.js';
+import RemoveSong_Transaction from './transactions/RemoveSong_Transaction.js';
 
 /**
  * PlaylisterModel.js
@@ -91,9 +92,13 @@ export default class PlaylisterModel {
     this.selectedSongIdx = idx;
   }
 
+  setRemovedSong(removedSong) {
+    this.removedSong = removedSong;
+  }
+
   toggleConfirmDialogOpen() {
     this.confirmDialogOpen = !this.confirmDialogOpen;
-    this.view.updateToolbarButtons(this);
+    this.refreshToolbar();
     return this.confirmDialogOpen;
   }
 
@@ -297,6 +302,18 @@ export default class PlaylisterModel {
     this.view.updateToolbarButtons(this);
   }
 
+  addRemoveSongTransactions(songIdx) {
+    const removedSong = this.getSong(songIdx);
+    const copiedSong = new Song(
+      removedSong.title,
+      removedSong.artist,
+      removedSong.youTubeId
+    );
+    let transaction = new RemoveSong_Transaction(this, songIdx, copiedSong);
+    this.tps.addTransaction(transaction);
+    this.view.updateToolbarButtons(this);
+  }
+
   // FUNCTIONS THAT EDIT A PLAYLIST
 
   addNewSong(initTitle, initArtist, initYouTubeId) {
@@ -323,13 +340,21 @@ export default class PlaylisterModel {
   }
 
   removeSong(songIdx) {
-    let song = this.getSong(songIdx);
+    let removedSong = null;
     if (this.hasCurrentList()) {
-      this.currentList.songs.splice(songIdx, 1);
+      removedSong = this.currentList.songs.splice(songIdx, 1)[0];
+      console.log(removedSong);
       this.view.refreshPlaylist(this.currentList);
     }
     this.saveLists();
-    console.log(this.getPlaylistSize());
-    return song;
+    return removedSong;
+  }
+
+  undoRemoveSong(idx, removedSong) {
+    if (this.hasCurrentList()) {
+      this.currentList.songs.splice(idx, 0, removedSong);
+      this.view.refreshPlaylist(this.currentList);
+    }
+    this.saveLists();
   }
 }
