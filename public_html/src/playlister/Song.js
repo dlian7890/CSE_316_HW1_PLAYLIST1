@@ -3,8 +3,7 @@
  *
  * This class represents a song.
  *
- * @author McKilla Gorilla
- * @author ?
+ * @author Danny Lian
  */
 export default class Song {
   constructor() {}

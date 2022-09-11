@@ -19,7 +19,7 @@ import RemoveSong_Transaction from './transactions/RemoveSong_Transaction.js';
  * inside the view of the page.
  *
  * @author McKilla Gorilla
- * @author ?
+ * @author Danny Lian
  */
 export default class PlaylisterModel {
   /*
